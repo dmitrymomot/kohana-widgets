@@ -36,7 +36,7 @@ class Kohana_Widget {
 	}
 
 	protected $_config;
-	protected $_widge;
+	protected $_widget;
 	protected $_widget_name;
 
 	public function __construct($widget_name, array $params = NULL)
@@ -51,7 +51,7 @@ class Kohana_Widget {
 
 		$route_name = Arr::get($this->_config, 'route_name', 'widgets-default');
 
-		if (Route::get($route_name))
+		if (Route::get($route_name) AND array_key_exists($widget_name, static::get_list()))
 		{
 			$params = (is_array($params)) ? $params : array();
 			$params = Arr::merge(Arr::get($this->_config, $widget_name, array()), $params);
@@ -59,30 +59,24 @@ class Kohana_Widget {
 
 			$this->_widget = Request::factory($url);
 		}
-
 	}
 
 	public function render()
 	{
-		try
+		if ( ! $this->_widget instanceof Request)
 		{
-			$response = $this->_widget->execute();
-
-			if ($response->status() != 200)
-			{
-				$response = __(Kohana::message('widgets', $response->status()), array(':name' => $this->_widget_name));
-			}
-			else
-			{
-				$response = $response->body();
-			}
+			return __(Kohana::message('widgets', 404), array(':name' => $this->_widget_name));
 		}
-		catch (Kohana_Exception $e)
+
+		$response = $this->_widget->execute();
+
+		if ($response->status() != 200)
 		{
-			if (Kohana::$profiling)
-			{
-				$response = Kohana_Exception::text($e);
-			}
+			$response = __(Kohana::message('widgets', $response->status()), array(':name' => $this->_widget_name));
+		}
+		else
+		{
+			$response = $response->body();
 		}
 
 		return $response;
