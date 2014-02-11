@@ -15,6 +15,13 @@ return array(
 		'widget_title' => 'Test Widget #2',
 		'directory' => 'widget',
 		'controller' => 'test',
-		'action' => 'test',
+		'action' => 'modules',
+	),
+
+	'test3' => array(
+		'widget_title' => 'Test Widget #2',
+		'directory' => 'widget',
+		'controller' => 'test',
+		'action' => 'bundles',
 	),
 );

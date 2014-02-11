@@ -2,9 +2,7 @@
 
 class Kohana_Widget {
 
-	protected static $_widgets = array();
-	protected static $_widgets_static = array();
-	protected static $_widgets_list = array();
+	protected static $_widgets_list;
 
 	public static function get($widget_name, array $params = NULL)
 	{
@@ -18,21 +16,43 @@ class Kohana_Widget {
 
 	public static function get_list()
 	{
-		$widgets = Kohana::$config->load('widgets')->as_array();
-
-		foreach ($widgets as $name => $val)
+		if ( ! is_array(static::$_widgets_list))
 		{
-			if ( ! is_array($val) OR ! array_key_exists('widget_title', $val))
+			$widgets = Kohana::$config->load('widgets')->as_array();
+
+			foreach ($widgets as $name => $val)
 			{
-				unset($widgets[$name]);
+				if ( ! is_array($val) OR ! array_key_exists('widget_title', $val))
+				{
+					unset($widgets[$name]);
+				}
+				else
+				{
+					$widgets[$name] = $val['widget_title'];
+				}
 			}
-			else
-			{
-				$widgets[$name] = $val['widget_title'];
-			}
+
+			static::$_widgets_list = $widgets;
 		}
 
-		return $widgets;
+		return static::$_widgets_list;
+	}
+
+	public static function arr(array $widgets = NULL)
+	{
+		if ($widgets == NULL OR count($widgets) < 1)
+		{
+			return NULL;
+		}
+
+		$response = NULL;
+
+		foreach ($widgets as $widget)
+		{
+			$response .= static::get($widget)->render();
+		}
+
+		return $response;
 	}
 
 	protected $_config;
