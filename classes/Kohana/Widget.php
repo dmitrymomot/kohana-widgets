@@ -2,18 +2,38 @@
 
 class Kohana_Widget {
 
+	/**
+	 * @var array
+	 */
 	protected static $_widgets_list;
 
+	/**
+	 * @param string $widget_name
+	 * @param array $params
+	 *
+	 * @return object // instance of class Widget
+	 */
 	public static function get($widget_name, array $params = NULL)
 	{
 		return new static($widget_name, $params);
 	}
 
-	public static function get_static($widget_name, array $data = NULL)
+	/**
+	 * @param string $view
+	 * @param array $data
+	 *
+	 * @return object // instance of class View
+	 */
+	public static function get_static($view, array $data = NULL)
 	{
-		return View::factory($widget_name, $data);
+		return View::factory($view, $data);
 	}
 
+	/**
+	 * Gets registered widgets list
+	 *
+	 * @return array
+	 */
 	public static function get_list()
 	{
 		if ( ! is_array(static::$_widgets_list))
@@ -38,6 +58,10 @@ class Kohana_Widget {
 		return static::$_widgets_list;
 	}
 
+	/**
+	 * @param array $widgets
+	 * @return string
+	 */
 	public static function arr(array $widgets = NULL)
 	{
 		if ($widgets == NULL OR count($widgets) < 1)
@@ -55,10 +79,29 @@ class Kohana_Widget {
 		return $response;
 	}
 
+	/**
+	 * @var array
+	 */
 	protected $_config;
+
+	/**
+	 * Instance of class Request
+	 *
+	 * @var object
+	 */
 	protected $_widget;
+
+	/**
+	 * @var string
+	 */
 	protected $_widget_name;
 
+	/**
+	 * @param string $widget_name
+	 * @param array $params
+	 *
+	 * @return void
+	 */
 	public function __construct($widget_name, array $params = NULL)
 	{
 		if ($widget_name == 'route_name')
@@ -81,6 +124,9 @@ class Kohana_Widget {
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	public function render()
 	{
 		if ( ! $this->_widget instanceof Request)
@@ -102,6 +148,9 @@ class Kohana_Widget {
 		return $response;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function __toString()
 	{
 		return $this->render();
