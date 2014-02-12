@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
 
-Route::set('widgets-default', 'widget(/<directory>(/<controller>(/<action>(/<id>))))')
+Route::set('widgets-default', 'widget/<directory>/<controller>(/<action>(/<id>))')
 	->filter(function($route, $params, $request)
 	{
 		if ($request->is_external() AND ! $request->is_ajax())
@@ -10,7 +10,6 @@ Route::set('widgets-default', 'widget(/<directory>(/<controller>(/<action>(/<id>
 		}
 	})
 	->defaults(array(
-		'directory' 	=> 'widget',
-		'controller' 	=> 'welcome',
-		'action'     	=> 'index',
+		'directory'	=> 'widget',
+		'action'	=> 'index',
 	));

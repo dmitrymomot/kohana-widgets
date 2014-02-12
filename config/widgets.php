@@ -4,24 +4,14 @@ return array(
 
 	'route_name' => 'widgets-default',
 
+	/**
+	 * Example of registered widget
+	 * =====================================
 	'test' => array(
 		'widget_title' => 'Test Widget #1',
 		'directory' => 'widget',
 		'controller' => 'test',
 		'action' => 'test',
 	),
-
-	'test2' => array(
-		'widget_title' => 'Test Widget #2',
-		'directory' => 'widget',
-		'controller' => 'test',
-		'action' => 'modules',
-	),
-
-	'test3' => array(
-		'widget_title' => 'Test Widget #2',
-		'directory' => 'widget',
-		'controller' => 'test',
-		'action' => 'bundles',
-	),
+	*/
 );
