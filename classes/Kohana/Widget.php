@@ -80,6 +80,22 @@ class Kohana_Widget {
 	}
 
 	/**
+	 * Widget route filter
+	 *
+	 * @param object $route
+	 * @param array $params
+	 * @param object $request
+	 * @return void | FALSE
+	 */
+	public static function filter($route, $params, $request)
+	{
+		if ($request->is_external() AND ! $request->is_ajax())
+		{
+			return FALSE;
+		}
+	}
+
+	/**
 	 * @var array
 	 */
 	protected $_config;
